@@ -28,7 +28,7 @@ export async function POST(req) {
 
         try {
         await connectDB();
-        const livres = await Livre.find();
+        const livres = await Livre.find({}, null, {sort: {'_id': -1}}).populate('auteurs').populate('specialite').populate('maised');
         return NextResponse.json(livres);
         } catch (error) {
         return NextResponse.json({ error });

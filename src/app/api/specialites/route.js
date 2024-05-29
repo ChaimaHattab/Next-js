@@ -29,7 +29,7 @@ export async function POST(req) {
         try {
         await connectDB();
         const specialites = await Specialite.find();
-        return NextResponse.json({ specialites });
+        return NextResponse.json( specialites );
         } catch (error) {
         return NextResponse.json({ error });
         }

@@ -1,0 +1,119 @@
+import React, { useState } from 'react';
+import Button from 'react-bootstrap/Button';
+import Form from 'react-bootstrap/Form';
+import Col from 'react-bootstrap/Col';
+import Row from 'react-bootstrap/Row';
+import Modal from 'react-bootstrap/Modal';
+import {editAuteur} from "@/services/auteurService"
+
+const Updateauteur =({ ed,LesAuteurs,setLesAuteurs,show,setShow})=> {
+const [auteur,setAuteur]=useState(ed)
+const [validated, setValidated] = useState(false);
+const handleClose = () => setShow(false);
+
+const handlechange=(e)=>{
+setAuteur({...auteur,[e.target.name]:e.target.value})
+}
+const handleSubmit = (e) => {
+e.preventDefault();
+const form = e.currentTarget;
+if (form.checkValidity() === true) {
+//faire le update dans la BD
+editAuteur(auteur).then(res => { console.log(res)
+// faire le update dans le tableau affiché
+setLesAuteurs(LesAuteurs.map((myauteur) =>myauteur._id
+
+=== auteur._id ? auteur : myauteur));
+//vider le form
+handleClose()
+setValidated(false);
+})
+.catch(error=>{
+console.log(error)
+alert("Erreur ! Modification non effectuée")
+
+})
+
+}
+setValidated(true);
+}
+return (
+<div >
+<Modal show={show} onHide={handleClose}>
+<Form noValidate validated={validated} onSubmit={handleSubmit}>
+<Modal.Header closeButton>
+<h2>Modifier un Auteur</h2>
+</Modal.Header>
+<Modal.Body>
+<div className="container w-100 d-flex justify-content-center">
+<div>
+<div className='form mt-3'>
+<Row className="mb-2">
+<Form.Group as={Col} md="12" >
+<Form.Label >Nom *</Form.Label>
+<Form.Control
+required
+type="text"
+placeholder="Nom"
+name="nomauteur"
+value={auteur.nomauteur}
+onChange={(e)=>handlechange(e)}
+/>
+<Form.Control.Feedback type="invalid">
+Saisir Nom de l'auteur
+</Form.Control.Feedback>
+</Form.Group>
+</Row>
+</div>
+<div className='form mt-3'>
+<Row className="mb-2">
+<Form.Group as={Col} md="12" >
+<Form.Label >Email *</Form.Label>
+<Form.Control
+required
+type="email"
+placeholder="Email"
+name="email"
+value={auteur.email}
+onChange={(e)=>handlechange(e)}
+/>
+<Form.Control.Feedback type="invalid">
+Saisir Email de l'auteur
+</Form.Control.Feedback>
+</Form.Group>
+</Row>
+</div>
+<div className='form mt-3'>
+<Row className="mb-2">
+<Form.Group as={Col} md="12" >
+<Form.Label >Num Tel *</Form.Label>
+<Form.Control
+required
+type="numtel"
+placeholder="NumTel"
+name="numtel"
+value={auteur.numtel}
+onChange={(e)=>handlechange(e)}
+/>
+<Form.Control.Feedback type="invalid">
+Saisir Email de l'auteur
+</Form.Control.Feedback>
+</Form.Group>
+</Row>
+</div>
+</div>
+</div>
+</Modal.Body>
+<Modal.Footer>
+<Button type="submit">Enregistrer</Button>
+
+<Button type="button" className="btn btn-
+warning"onClick={()=>handleClose()}>Annuler</Button>
+
+</Modal.Footer>
+</Form>
+</Modal>
+</div>
+)
+}
+export default Updateauteur

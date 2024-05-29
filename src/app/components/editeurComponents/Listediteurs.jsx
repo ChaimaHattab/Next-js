@@ -3,23 +3,23 @@ import { useMemo,useState } from 'react';
 import { MaterialReactTable } from 'material-react-table';
 import Button from 'react-bootstrap/Button';
 
-import {deleteAuteur} from "@/services/auteurService"
+import {deleteEditeur} from "@/services/editeurService"
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
-import NewAuteurComponent from './NewAuteurComponent';
+import NewEditeurComponent from './NewEditeurComponent';
 import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
-import UpdateAuteurComponent from './UpdateAuteurComponent';
-const Listauteurs = ({auteurs}) => {
-const [LesAuteurs,setLesAuteurs]=useState(auteurs)
+import UpdateEditeurComponent from './UpdateEditeurComponent';
+const Listediteurs = ({editeurs}) => {
+const [LesEditeurs,setLesEditeurs]=useState(editeurs)
 //pour edit modal
 const [show, setShow] = useState(false);
 const handleShow = () => setShow(true);
-const [auteur,setAuteur]=useState([])
+const [editeur,setEditeur]=useState([])
 
-const deleteauteur=(id)=>{
+const deleteediteur=(id)=>{
 if(window.confirm("supprimer Editeur O/N")) {
-deleteAuteur(id)
+deleteEditeur(id)
 .then((res)=>{ console.log(res)
-setLesAuteurs(LesAuteurs.filter((item)=>item._id!==id))
+setLesEditeurs(LesEditeurs.filter((item)=>item._id!==id))
 })
 .catch(error=>{
 console.log(error)
@@ -31,19 +31,19 @@ console.log(error)
 const columns = useMemo(
 () => [
 {
-accessorKey: 'nomauteur',
+accessorKey: 'maisonedit',
 header: 'NOM',
 size: 100,
 },
 {
-accessorKey: 'email',
-header: 'EMAIL',
+accessorKey: 'siteweb',
+header: 'SITE',
 size: 100,
 },
 {
-accessorKey: 'numtel',
+accessorKey: 'email',
 
-header: 'NUMTEL',
+header: 'EMAIL',
 size: 100,
 },
 {
@@ -53,7 +53,7 @@ size: 100,
 Cell: ({ cell, row }) => (
 <div >
 <Button
-onClick={()=>{setAuteur(cell.row.original);handleShow()}}
+onClick={()=>{setEditeur(cell.row.original);handleShow()}}
 variant="success"
 size="md"
 className="text-success btn-link edit"
@@ -62,7 +62,7 @@ className="text-success btn-link edit"
 </Button>
 <Button
 onClick={(e) => {
-deleteauteur(cell.row.original._id,e);
+deleteediteur(cell.row.original._id,e);
 }}
 variant="danger"
 size="md"
@@ -74,16 +74,16 @@ className="text-danger btn-link delete"
 ),
 },
 ],
-[LesAuteurs],
+[LesEditeurs],
 );
 return (
 <div>
-<NewAuteurComponent LesAuteurs={LesAuteurs}
-setLesAuteurs={setLesAuteurs}/>
-<MaterialReactTable columns={columns} data={LesAuteurs} />
-{show ? <UpdateAuteurComponent ed={auteur} LesAuteurs={LesAuteurs}
-setLesAuteurs={setLesAuteurs} show={true} setShow={setShow} /> : null}
+<NewEditeurComponent LesEditeurs={LesEditeurs}
+setLesEditeurs={setLesEditeurs}/>
+<MaterialReactTable columns={columns} data={LesEditeurs} />
+{show ? <UpdateEditeurComponent ed={editeur} LesEditeurs={LesEditeurs}
+setLesEditeurs={setLesEditeurs} show={true} setShow={setShow} /> : null}
 </div>
 )
 }
-export default Listauteurs
+export default Listediteurs

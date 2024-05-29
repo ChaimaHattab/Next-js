@@ -28,7 +28,7 @@ export async function POST(req) {
         try {
         await connectDB();
         const auteurs = await Auteur.find();
-        return NextResponse.json({ auteurs });
+        return NextResponse.json( auteurs );
         } catch (error) {
         return NextResponse.json({ error });
         }

@@ -6,7 +6,10 @@ import Button from 'react-bootstrap/Button';
 import {deleteLivre} from "@/services/livreService"
 import { useRouter } from "next/navigation";
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
+import Link from 'next/link';
+import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 
+import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
 const Listlivres = ({livres}) => {
 const router = useRouter();
 const deletelivre=(id)=>{
@@ -87,30 +90,55 @@ header: 'EDITEUR',
 size: 50,
 },
 {
-accessorKey: '_id',
-header: 'actions',
-size: 50,
-Cell: ({ cell, row }) => (
-<div >
-<Button
-onClick={(e) => {
-deletelivre(cell.row.original._id,e);
-}}
-variant="danger"
+    accessorKey: '_id',
+    header: 'actions',
+    size: 50,
+    Cell: ({ cell, row }) => (
+    <div >
+        <Button
 size="md"
-className="text-danger btn-link delete"
+className="text-primary btn-link edit"
 >
-<DeleteForeverIcon />
-</Button>
-</div>
-),
-},
+<Link
 
+href={`/admin/livres/updateLivre/${cell.row.original._id}`}>
+
+<EditOutlinedIcon/>
+</Link>
+</Button>
+    <Button
+    onClick={(e) => {
+    deletelivre(cell.row.original._id,e);
+    }}
+    variant="danger"
+    size="md"
+    className="text-danger btn-link delete"
+    >
+    <DeleteForeverIcon />
+    </Button>
+    </div>
+    ),
+    },
 ],
 [livres],
 );
 return (
     <div>
+        <Button
+variant='dark'
+size="sm"
+>
+<Link
+href="/admin/livres/newLivre"
+style={{
+textDecoration: 'none',
+color: 'pink',
+fontSize: 14,
+}}
+>
+<AddCircleOutlineIcon/> Nouveau
+</Link>
+</Button>
 <MaterialReactTable columns={columns} data={livres} />;
 </div>
 )

@@ -11,7 +11,7 @@ try {
 await connectDB();
 const livre = await Livre.findById(params.id);
 if (livre) {
-return NextResponse.json({ livre });
+return NextResponse.json( livre );
 }
 return NextResponse.json({ message: `Livre ${params.id} not found` }, {
 status: HttpStatusCode.NotFound });
